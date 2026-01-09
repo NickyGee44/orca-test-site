@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { usePageMetadata } from "../hooks/usePageMetadata";
 import { Link } from "react-router-dom";
-import { getArticles, type Article } from "../services/articleService";
+import { getArticles, type Article, clearArticleCache } from "../services/articleService";
 import { ArticleCard } from "../components/ArticleCard";
 import { MetricsShowcase } from "../components/MetricsShowcase";
 import { ImageBlock } from "../components/ImageBlock";
@@ -17,6 +17,7 @@ export function ResourcesPage() {
 
   const [articles, setArticles] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [filter, setFilter] = useState<"all" | "external" | "ai-generated">("all");
 
   const { getSection } = usePageContent({
@@ -25,18 +26,34 @@ export function ResourcesPage() {
 
   const heroImage = getSection<ImageSection>("heroImage", {});
 
-  useEffect(() => {
-    async function loadArticles() {
+  const loadArticles = async (forceRefresh = false) => {
+    if (forceRefresh) {
+      setIsRefreshing(true);
+      clearArticleCache();
+    } else {
       setIsLoading(true);
-      try {
-        const fetchedArticles = await getArticles();
-        setArticles(fetchedArticles);
-      } catch (error) {
-        console.error("Error loading articles:", error);
-      } finally {
-        setIsLoading(false);
-      }
     }
+    try {
+      console.log("[Resources Page] Loading articles...");
+      const fetchedArticles = await getArticles();
+      console.log(`[Resources Page] Loaded ${fetchedArticles.length} articles`);
+      // Log which articles have images
+      const withImages = fetchedArticles.filter(a => a.imageUrl);
+      const withoutImages = fetchedArticles.filter(a => !a.imageUrl);
+      console.log(`[Resources Page] Articles with images: ${withImages.length}, without: ${withoutImages.length}`);
+      if (withoutImages.length > 0) {
+        console.log("[Resources Page] Articles without images:", withoutImages.map(a => ({ title: a.title, url: a.url })));
+      }
+      setArticles(fetchedArticles);
+    } catch (error) {
+      console.error("Error loading articles:", error);
+    } finally {
+      setIsLoading(false);
+      setIsRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
     loadArticles();
   }, []);
 
@@ -68,26 +85,35 @@ export function ResourcesPage() {
         </p>
       </section>
 
-      {/* Article Filters */}
-      <div className="flex flex-wrap items-center gap-3">
-        <span className="text-sm text-slate-400">Filter:</span>
-        {(["all", "external", "ai-generated"] as const).map((filterOption) => (
-          <button
-            key={filterOption}
-            onClick={() => setFilter(filterOption)}
-            className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
-              filter === filterOption
-                ? "border-cyan-400/50 bg-cyan-400/10 text-cyan-200"
-                : "border-slate-700 bg-slate-900/40 text-slate-300 hover:border-slate-500"
-            }`}
-          >
-            {filterOption === "all"
-              ? "All Articles"
-              : filterOption === "external"
-              ? "External News"
-              : "AI Generated"}
-          </button>
-        ))}
+      {/* Article Filters and Refresh */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-sm text-slate-400">Filter:</span>
+          {(["all", "external", "ai-generated"] as const).map((filterOption) => (
+            <button
+              key={filterOption}
+              onClick={() => setFilter(filterOption)}
+              className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
+                filter === filterOption
+                  ? "border-cyan-400/50 bg-cyan-400/10 text-cyan-200"
+                  : "border-slate-700 bg-slate-900/40 text-slate-300 hover:border-slate-500"
+              }`}
+            >
+              {filterOption === "all"
+                ? "All Articles"
+                : filterOption === "external"
+                ? "External News"
+                : "AI Generated"}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={() => loadArticles(true)}
+          disabled={isRefreshing || isLoading}
+          className="rounded-full border border-slate-700 bg-slate-900/40 px-3 py-1 text-xs font-medium text-slate-300 transition hover:border-slate-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isRefreshing ? "Refreshing..." : "🔄 Refresh"}
+        </button>
       </div>
 
       {/* Articles Grid */}

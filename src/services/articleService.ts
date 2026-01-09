@@ -58,18 +58,59 @@ function stripHtml(html: string): string {
 
 /**
  * Extract image URL from HTML content or description
+ * Enhanced to find more image sources
  */
 function extractImageUrl(item: any): string | undefined {
   // Try to get image from enclosure
   if (item.enclosure?.link) {
-    return item.enclosure.link;
+    const enclosureUrl = item.enclosure.link;
+    // Check if it's actually an image (common image extensions)
+    if (/\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i.test(enclosureUrl)) {
+      return enclosureUrl;
+    }
   }
 
-  // Try to extract from description HTML
+  // Try to extract from description HTML - look for multiple patterns
   if (item.description) {
-    const imgMatch = item.description.match(/<img[^>]+src="([^"]+)"/i);
-    if (imgMatch && imgMatch[1]) {
-      return imgMatch[1];
+    // Try Open Graph image first
+    const ogMatch = item.description.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
+    if (ogMatch && ogMatch[1]) {
+      return ogMatch[1];
+    }
+    
+    // Try Twitter Card image
+    const twitterMatch = item.description.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i);
+    if (twitterMatch && twitterMatch[1]) {
+      return twitterMatch[1];
+    }
+    
+    // Try img tags - get the first substantial image
+    const imgMatches = item.description.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/gi);
+    if (imgMatches && imgMatches.length > 0) {
+      for (const imgTag of imgMatches) {
+        const srcMatch = imgTag.match(/src=["']([^"']+)["']/i);
+        if (srcMatch && srcMatch[1]) {
+          const src = srcMatch[1];
+          // Skip small icons, logos, and common non-article images
+          if (
+            !src.includes("logo") &&
+            !src.includes("icon") &&
+            !src.includes("avatar") &&
+            !src.includes("favicon") &&
+            !src.includes("button") &&
+            !src.includes("badge") &&
+            !src.includes("spacer") &&
+            src.length > 10 // Basic sanity check
+          ) {
+            return src;
+          }
+        }
+      }
+      // Fallback: use first image if we found any
+      const firstMatch = imgMatches[0].match(/src=["']([^"']+)["']/i);
+      if (firstMatch && firstMatch[1]) {
+        return firstMatch[1];
+      }
     }
   }
 
@@ -79,6 +120,11 @@ function extractImageUrl(item: any): string | undefined {
     if (imgMatch && imgMatch[1]) {
       return imgMatch[1];
     }
+  }
+
+  // Try media:content (common in RSS feeds)
+  if (item["media:content"]?.url) {
+    return item["media:content"].url;
   }
 
   return undefined;
@@ -94,6 +140,8 @@ async function fetchArticleImageFromUrl(articleUrl: string): Promise<string | un
   try {
     // Use the Netlify function to extract image from article URL
     const apiUrl = `/api/extractArticleImage?url=${encodeURIComponent(articleUrl)}`;
+    console.log(`[Image Extraction] Attempting to fetch image from: ${articleUrl}`);
+    
     const response = await fetch(apiUrl, {
       method: "GET",
       headers: {
@@ -102,20 +150,61 @@ async function fetchArticleImageFromUrl(articleUrl: string): Promise<string | un
     });
 
     if (!response.ok) {
-      // Silently fail - we'll use fallback image
+      console.warn(`[Image Extraction] Failed for ${articleUrl}: HTTP ${response.status} - ${response.statusText}`);
+      // If it's a 404, the function might not be deployed yet
+      if (response.status === 404) {
+        console.warn(`[Image Extraction] Netlify function not found. Make sure functions are deployed or run 'netlify dev' for local development.`);
+      }
       return undefined;
     }
 
     const data = await response.json();
     if (data.ok && data.imageUrl) {
+      console.log(`[Image Extraction] ✓ Successfully extracted image from ${articleUrl}: ${data.imageUrl}`);
       return data.imageUrl;
+    } else {
+      console.log(`[Image Extraction] No image found for ${articleUrl}`, data);
     }
   } catch (error) {
-    // Silently fail - we'll use fallback image
-    console.debug("Failed to fetch article image:", error);
+    console.error("[Image Extraction] Error fetching article image:", error);
+    // Check if it's a network error (function not available)
+    if (error instanceof TypeError && error.message.includes("Failed to fetch")) {
+      console.warn(`[Image Extraction] Network error - Netlify functions may not be available. Deploy to Netlify or run 'netlify dev' for local development.`);
+    }
   }
 
   return undefined;
+}
+
+/**
+ * Fetch full article content from source URL using the Netlify function
+ */
+export async function fetchArticleContentFromUrl(articleUrl: string): Promise<string | null> {
+  if (!articleUrl) return null;
+
+  try {
+    const apiUrl = `/api/fetchArticleContent?url=${encodeURIComponent(articleUrl)}`;
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      console.debug(`Content extraction failed for ${articleUrl}: HTTP ${response.status}`);
+      return null;
+    }
+
+    const data = await response.json();
+    if (data.ok && data.content) {
+      return data.content;
+    }
+  } catch (error) {
+    console.debug("Failed to fetch article content:", error);
+  }
+
+  return null;
 }
 
 /**
@@ -280,24 +369,44 @@ export async function getArticles(): Promise<Article[]> {
   const aiArticles = getAIArticles();
 
   // For articles without images, try to fetch from their URLs
-  const articlesWithImages = await Promise.all(
-    [...externalArticles, ...aiArticles].map(async (article) => {
-      // If article already has an image, return as-is
-      if (article.imageUrl) {
-        return article;
-      }
-
-      // If article has a URL but no image, try to fetch it
-      if (article.url && article.category === "external") {
-        const fetchedImageUrl = await fetchArticleImageFromUrl(article.url);
-        if (fetchedImageUrl) {
-          return { ...article, imageUrl: fetchedImageUrl };
-        }
-      }
-
-      return article;
-    })
+  // Only fetch images for a limited number to avoid rate limiting
+  const articlesNeedingImages = [...externalArticles, ...aiArticles].filter(
+    (article) => !article.imageUrl && article.url && article.category === "external"
   );
+
+  console.log(`[Article Service] Found ${articlesNeedingImages.length} articles needing images`);
+
+  // Fetch images in batches to avoid overwhelming the API
+  const imageFetchPromises = articlesNeedingImages.slice(0, 10).map(async (article) => {
+    console.log(`[Article Service] Fetching image for: ${article.title}`);
+    const fetchedImageUrl = await fetchArticleImageFromUrl(article.url!);
+    if (fetchedImageUrl) {
+      console.log(`[Article Service] ✓ Got image for "${article.title}": ${fetchedImageUrl}`);
+    } else {
+      console.log(`[Article Service] ✗ No image found for "${article.title}"`);
+    }
+    return { article, imageUrl: fetchedImageUrl };
+  });
+
+  const imageResults = await Promise.all(imageFetchPromises);
+  const imageMap = new Map(
+    imageResults
+      .filter((result) => result.imageUrl) // Only include successful results
+      .map((result) => [result.article.id, result.imageUrl])
+  );
+
+  console.log(`[Article Service] Successfully fetched ${imageMap.size} images`);
+
+  const articlesWithImages = [...externalArticles, ...aiArticles].map((article) => {
+    if (article.imageUrl) {
+      return article;
+    }
+    const fetchedImageUrl = imageMap.get(article.id);
+    if (fetchedImageUrl) {
+      return { ...article, imageUrl: fetchedImageUrl };
+    }
+    return article;
+  });
 
   const allArticles = articlesWithImages.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()

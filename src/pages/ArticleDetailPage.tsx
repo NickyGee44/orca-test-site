@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { usePageMetadata } from "../hooks/usePageMetadata";
-import { getArticleById, type Article } from "../services/articleService";
+import { getArticleById, type Article, fetchArticleContentFromUrl } from "../services/articleService";
 
 export function ArticleDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [article, setArticle] = useState<Article | null>(null);
+  const [fullContent, setFullContent] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingContent, setIsLoadingContent] = useState(false);
 
   useEffect(() => {
     async function loadArticle() {
@@ -39,6 +41,35 @@ export function ArticleDetailPage() {
 
     loadArticle();
   }, [id, navigate]);
+
+  // Fetch full content for external articles
+  useEffect(() => {
+    async function loadFullContent() {
+      if (!article || !article.url || article.category !== "external") {
+        return;
+      }
+
+      // If article already has full content, use it
+      if (article.content && article.content.length > article.description.length) {
+        setFullContent(article.content);
+        return;
+      }
+
+      setIsLoadingContent(true);
+      try {
+        const content = await fetchArticleContentFromUrl(article.url);
+        if (content) {
+          setFullContent(content);
+        }
+      } catch (error) {
+        console.error("Failed to load full article content:", error);
+      } finally {
+        setIsLoadingContent(false);
+      }
+    }
+
+    loadFullContent();
+  }, [article]);
 
   usePageMetadata({
     title: article ? `${article.title} – Orca News` : "Article – Orca News",
@@ -128,15 +159,26 @@ export function ArticleDetailPage() {
 
         {/* Article Content */}
         <div className="prose prose-invert prose-sm max-w-none space-y-6 text-slate-300 sm:prose-base">
-          {/* Use full content if available, otherwise use description */}
-          <div
-            dangerouslySetInnerHTML={{
-              __html: article.content 
-                ? article.content 
-                : article.description.replace(/\n/g, "<br />")
-            }}
-            className="article-content"
-          />
+          {isLoadingContent ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="text-slate-400">Loading full article content...</div>
+            </div>
+          ) : (
+            <div
+              dangerouslySetInnerHTML={{
+                __html: fullContent 
+                  ? fullContent 
+                  : article.content 
+                  ? article.content 
+                  : article.description.replace(/\n/g, "<br />")
+              }}
+              className="article-content"
+              style={{
+                // Style the article content to look good
+                lineHeight: "1.75",
+              }}
+            />
+          )}
         </div>
 
         {/* Sources and Citations */}
@@ -162,14 +204,17 @@ export function ArticleDetailPage() {
 
         {/* External Article Link */}
         {article.url && (
-          <div className="mt-8 border-t border-slate-800/70 pt-6">
+          <div className="mt-8 flex flex-col gap-4 border-t border-slate-800/70 pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="text-sm text-slate-400">
+              {fullContent ? "Full article content displayed above." : "Article summary displayed above."}
+            </div>
             <a
               href={article.url}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-button bg-gradient-to-r from-cyan-400 to-purple-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-orca-glow-cyan transition hover:shadow-orca-glow-purple"
             >
-              Read original article →
+              Read on original site →
             </a>
           </div>
         )}

@@ -284,4 +284,26 @@ body {
   @apply text-cyan-400 hover:text-cyan-300 hover:underline transition;
 }
 
+.article-content img {
+  @apply my-6 rounded-panel border border-slate-800/70 max-w-full;
+  max-height: 500px;
+  object-fit: contain;
+}
+
+.article-content blockquote {
+  @apply my-4 border-l-4 border-cyan-400/50 pl-4 italic text-slate-400;
+}
+
+.article-content code {
+  @apply rounded bg-slate-900/50 px-1.5 py-0.5 text-sm text-cyan-300;
+}
+
+.article-content pre {
+  @apply my-4 overflow-x-auto rounded-panel bg-slate-900/50 p-4;
+}
+
+.article-content pre code {
+  @apply bg-transparent p-0;
+}
+
 
