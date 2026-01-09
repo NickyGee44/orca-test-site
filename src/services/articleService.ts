@@ -85,6 +85,40 @@ function extractImageUrl(item: any): string | undefined {
 }
 
 /**
+ * Fetch article image from source URL using the Netlify function
+ * Falls back gracefully if the function fails or no image is found
+ */
+async function fetchArticleImageFromUrl(articleUrl: string): Promise<string | undefined> {
+  if (!articleUrl) return undefined;
+
+  try {
+    // Use the Netlify function to extract image from article URL
+    const apiUrl = `/api/extractArticleImage?url=${encodeURIComponent(articleUrl)}`;
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      // Silently fail - we'll use fallback image
+      return undefined;
+    }
+
+    const data = await response.json();
+    if (data.ok && data.imageUrl) {
+      return data.imageUrl;
+    }
+  } catch (error) {
+    // Silently fail - we'll use fallback image
+    console.debug("Failed to fetch article image:", error);
+  }
+
+  return undefined;
+}
+
+/**
  * Check if an article is relevant (Orca-related or general freight/logistics industry)
  */
 function isRelevantArticle(article: { title: string; description: string; source: string }): boolean {
@@ -175,27 +209,38 @@ export async function fetchExternalArticles(): Promise<Article[]> {
 
         const data = await response.json();
         if (data.items && Array.isArray(data.items)) {
-          const formattedArticles: Article[] = data.items
-            .slice(0, 10) // Get more articles to filter from
-            .map((item: any, index: number) => {
-              const imageUrl = extractImageUrl(item);
-              const rawDescription = item.description || item.content || item.contentSnippet || "";
-              return {
-                id: `external-${source.name.replace(/\s+/g, "-")}-${index}-${Date.now()}`,
-                title: item.title || "Untitled",
-                description: stripHtml(rawDescription),
-                source: source.name,
-                url: item.link,
-                date: item.pubDate || new Date().toISOString(),
-                category: "external" as const,
-                author: item.author || "External Source",
-                imageUrl: imageUrl
-              };
-            })
+          const formattedArticles: Article[] = await Promise.all(
+            data.items
+              .slice(0, 10) // Get more articles to filter from
+              .map(async (item: any, index: number) => {
+                let imageUrl = extractImageUrl(item);
+                const rawDescription = item.description || item.content || item.contentSnippet || "";
+                const articleUrl = item.link;
+
+                // If no image found in RSS feed, try to fetch from article URL
+                if (!imageUrl && articleUrl) {
+                  imageUrl = await fetchArticleImageFromUrl(articleUrl);
+                }
+
+                return {
+                  id: `external-${source.name.replace(/\s+/g, "-")}-${index}-${Date.now()}`,
+                  title: item.title || "Untitled",
+                  description: stripHtml(rawDescription),
+                  source: source.name,
+                  url: articleUrl,
+                  date: item.pubDate || new Date().toISOString(),
+                  category: "external" as const,
+                  author: item.author || "External Source",
+                  imageUrl: imageUrl
+                };
+              })
+          );
+
+          const relevantArticles = formattedArticles
             .filter(article => isRelevantArticle(article))
             .slice(0, 4); // Limit to 4 relevant articles per source
 
-          articles.push(...formattedArticles);
+          articles.push(...relevantArticles);
         }
       } catch (error) {
         console.warn(`Failed to fetch articles from "${source.name}":`, error);
@@ -234,7 +279,27 @@ export async function getArticles(): Promise<Article[]> {
   const externalArticles = await fetchExternalArticles();
   const aiArticles = getAIArticles();
 
-  const allArticles = [...externalArticles, ...aiArticles].sort(
+  // For articles without images, try to fetch from their URLs
+  const articlesWithImages = await Promise.all(
+    [...externalArticles, ...aiArticles].map(async (article) => {
+      // If article already has an image, return as-is
+      if (article.imageUrl) {
+        return article;
+      }
+
+      // If article has a URL but no image, try to fetch it
+      if (article.url && article.category === "external") {
+        const fetchedImageUrl = await fetchArticleImageFromUrl(article.url);
+        if (fetchedImageUrl) {
+          return { ...article, imageUrl: fetchedImageUrl };
+        }
+      }
+
+      return article;
+    })
+  );
+
+  const allArticles = articlesWithImages.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
