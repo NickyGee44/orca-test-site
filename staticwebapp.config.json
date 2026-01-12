@@ -1,6 +1,5 @@
 {
   "navigationFallback": {
-    "fallbackType": "SinglePageApplication",
     "rewrite": "/index.html"
   },
   "routes": [
