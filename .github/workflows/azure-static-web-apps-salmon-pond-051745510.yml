@@ -28,11 +28,10 @@ jobs:
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
+          # Azure will automatically detect package.json and run 'npm install' and 'npm run build'
           app_location: "/" # App source code path
           api_location: "/api" # Api source code path
-          output_location: "dist" # Built app content directory
-          app_build_command: "npm run build" # Build command for Vite
-          api_build_command: "" # No build needed for API (it's just JS files)
+          output_location: "dist" # Built app content directory - Vite outputs to dist/
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
