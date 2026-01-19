@@ -52,8 +52,8 @@ export function AboutPage() {
             imageUrl={teamImages[0].imageUrl}
             alt={teamImages[0].alt || "Orca team"}
             layout="contained"
-            overlay={true}
-            className="aspect-[16/6] max-h-[280px]"
+            overlay={false}
+            className="aspect-[16/9] max-h-[400px] [&_img]:object-contain [&_img]:object-center"
           />
         )}
       </section>
