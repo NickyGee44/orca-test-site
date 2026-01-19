@@ -391,9 +391,8 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
             layout: "contained"
           },
           {
-            // Parcel-focused image needed per feedback
-            imageUrl: "/images/placeholders/results-ecommerce.jpg",
-            alt: "E-commerce parcel fulfillment - IMAGE NEEDED: parcel-focused",
+            imageUrl: "/images/parcel.png",
+            alt: "E-commerce parcel fulfillment",
             layout: "contained"
           }
         ]
@@ -454,9 +453,8 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
         },
         teamImages: [
           {
-            // Matt & Marco photo needed per feedback
-            imageUrl: "/images/placeholders/about-team.jpg",
-            alt: "Matt & Marco - Orca Leadership - IMAGE NEEDED",
+            imageUrl: "/images/mattmarco.png",
+            alt: "Matt & Marco - Orca Leadership",
             layout: "contained"
           }
         ],
