@@ -65,7 +65,7 @@ export interface ModuleSection {
   title: string;
   description: string;
   features: string[];
-  preview?: string;
+  icon?: string;
 }
 
 export interface RoleSection {

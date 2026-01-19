@@ -217,31 +217,27 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
         modules: [
           {
             title: "Freight Audit & Payment",
-            description: "", // Description removed per feedback - bullets say the same thing
+            description: "We validate every invoice so you never overpay",
             features: ["100% invoice accuracy", "Built-in approval thresholds", "AI-powered audit rules and exception detection", "Streamlined payables workflow"],
-            preview: "Freight Audit Dashboard",
-            screenshotNeeded: true
+            icon: "✓"
           },
           {
             title: "Claims & Exceptions",
-            description: "", // Description removed per feedback
+            description: "We catch discrepancies and resolve them for you",
             features: ["AI-powered exception detection", "Resolution workflows", "Carrier communication", "Audit trails"],
-            preview: "Exceptions Center",
-            screenshotNeeded: true
+            icon: "⚡"
           },
           {
             title: "Invoice Management & Accounting",
-            description: "", // Description removed per feedback
+            description: "We simplify your freight accounting workflow",
             features: ["Centralized invoice processing", "Automated GL coding", "Accrual management", "Forecasting and projections"],
-            preview: "Invoice Dashboard",
-            screenshotNeeded: true
+            icon: "📋"
           },
           {
             title: "Analytics & Reporting",
-            description: "", // Description removed per feedback
+            description: "We surface insights so you can act with confidence",
             features: ["Real-time dashboards", "Self-serve reports", "Benchmarking", "Trend analysis"],
-            preview: "Analytics Library",
-            screenshotNeeded: true
+            icon: "📊"
           }
         ],
         // Integrations section REMOVED per feedback - no actual API integrations exist

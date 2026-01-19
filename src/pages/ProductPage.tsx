@@ -46,52 +46,37 @@ export function ProductPage() {
       )}
 
       {modules.length > 0 && (
-      <section className="space-y-8">
-        {modules.map((module, idx) => (
+      <section className="grid gap-6 sm:grid-cols-2">
+        {modules.map((module) => (
           <div
             key={module.title}
-            className="glass-panel rounded-panel border border-slate-800/70 bg-orca-panel/80 p-6 shadow-orca-panel sm:p-8"
+            className="glass-panel rounded-panel border border-slate-800/70 bg-orca-panel/80 p-6 shadow-orca-panel"
           >
-            <div className="grid gap-6 md:grid-cols-[minmax(0,1.2fr),minmax(0,1fr)] md:items-start">
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold text-slate-50 sm:text-2xl">
+            <div className="flex items-start gap-4">
+              {module.icon && (
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400/20 to-purple-500/20 text-2xl">
+                  {module.icon}
+                </div>
+              )}
+              <div className="space-y-3">
+                <h2 className="text-lg font-semibold text-slate-50 sm:text-xl">
                   {module.title}
                 </h2>
-                <p className="text-sm text-slate-300 sm:text-base">
-                  {module.description}
-                </p>
+                {module.description && (
+                  <p className="text-sm text-cyan-300">
+                    {module.description}
+                  </p>
+                )}
                 {module.features && module.features.length > 0 && (
-                <ul className="space-y-2 text-xs text-slate-300 sm:text-sm">
+                  <ul className="space-y-1.5 text-xs text-slate-300 sm:text-sm">
                     {module.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-2">
-                      <span className="mt-0.5 text-cyan-400">•</span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+                        <span className="mt-0.5 text-cyan-400">•</span>
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                 )}
-              </div>
-              <div className="relative">
-                <div className="pointer-events-none absolute -inset-4 rounded-full bg-[radial-gradient(circle,_rgba(34,211,238,0.15),_transparent_60%)] blur-2xl" />
-                <div className="relative overflow-hidden rounded-panel border border-slate-800/70 bg-slate-950/60 p-4">
-                  <div className="mb-3 flex items-center justify-between text-[11px] text-slate-400">
-                    <span>{module.title}</span>
-                    <span className="rounded-full bg-cyan-500/20 px-2 py-0.5 text-[10px] text-cyan-200">
-                      Preview
-                    </span>
-                  </div>
-                  <div className="space-y-2 rounded-tile bg-slate-900/60 p-3 text-xs text-slate-300">
-                    <div className="h-2 w-3/4 rounded bg-slate-700" />
-                    <div className="h-2 w-full rounded bg-slate-700" />
-                    <div className="h-2 w-2/3 rounded bg-slate-700" />
-                    <div className="mt-2 h-1 w-1/2 rounded bg-cyan-500/30" />
-                  </div>
-                  {module.preview && (
-                  <p className="mt-3 text-[11px] text-slate-400">
-                    {module.preview}
-                  </p>
-                  )}
-                </div>
               </div>
             </div>
           </div>
