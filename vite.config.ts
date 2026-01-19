@@ -1,11 +1,13 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
 
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    port: 5173
-  }
+export default defineConfig(async () => {
+  const reactPlugin = (await import("@vitejs/plugin-react-swc")).default;
+  return {
+    plugins: [reactPlugin()],
+    server: {
+      port: 5173
+    }
+  };
 });
 
 
