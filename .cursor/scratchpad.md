@@ -8,6 +8,24 @@ The goals are:
 
 This scratchpad is the shared workspace between Planner and Executor to coordinate design, implementation, and iteration in Cursor.
 
+---
+
+## Website Feedback Review (January 2025)
+
+### Reviewer Feedback Summary
+
+The reviewer provided detailed feedback across all pages. Key themes:
+1. **Font size too small** – especially buttons; needs global increase
+2. **Mobile not working** – preview link not viewable on mobile
+3. **Remove redundancy** – same information repeated across sections
+4. **Change ALL CAPS to sentence case** – easier to read
+5. **Content accuracy** – verify numbers, remove misleading claims
+6. **Real testimonials needed** – remove fake testimonials/aliases
+7. **Remove certain images** – some images break up text unnecessarily
+8. **Update copy** – multiple specific text changes per page
+
+---
+
 ## Key Challenges and Analysis
 
 - **Theme consistency with Orca Dash**
@@ -1814,4 +1832,335 @@ interface PageContent {
 - Changes persist and are reflected across all pages
 - AI article generation is only available in admin dashboard (not public-facing)
 - Admin can generate articles from Articles Manager page
+
+---
+
+## Phase 11 – Website Feedback Implementation (January 2025)
+
+### Overview
+
+Detailed feedback received from internal review. This phase addresses all feedback items systematically.
+
+### Items Requiring User Input
+
+Before implementation, the following information is needed from the user:
+
+| Item | Question | Page |
+|------|----------|------|
+| 1 | **Supply chain hero image** – Please provide the iStock image (https://www.istockphoto.com/photo/business-logistics-technology-concept-gm1435491075-476815442) or similar | Home |
+| 2 | **Verify $10B figure** – Is "$10B+ audited spend" accurate? | Home |
+| 3 | **Average invoice count** – What specific number should replace "Millions processed"? Updated annually? | Home |
+| 4 | **Is 'leakage' an official term?** – Confirm if "leakage" is standard supply chain/finance terminology | Home |
+| 5 | **Real testimonials** – Do you have actual customer testimonials with real names/titles? If not, should we remove the testimonials section entirely? | Home, Results |
+| 6 | **Matt & Marco image** – Please provide photo of Matt & Marco for About page | About |
+| 7 | **Awards list** – What logistics awards has Orca won? (year founded, 2025 award, etc.) | Home |
+| 8 | **Portal screenshots** – Will you provide actual portal screenshots for Platform page? | Platform |
+| 9 | **Parcel-focused image** – Please provide parcel-focused image for E-commerce case study | Results |
+| 10 | **Meta descriptions & Keywords** – TBD for all pages – please provide or should we draft? | All |
+
+---
+
+### High-level Task Breakdown
+
+#### Task 11.0 – Global: Increase Font Size
+- **Issue:** Font sizes are too small, especially buttons
+- **Changes:**
+  - Increase base font size in Tailwind config
+  - Increase button font sizes globally (from `text-sm` to `text-base` or larger)
+  - Increase heading sizes
+  - Increase body text sizes
+- **Files:** `tailwind.config.cjs`, `src/index.css`, all page components
+- **Success criteria:** Fonts are noticeably larger, especially buttons; readable on desktop
+
+#### Task 11.1 – Global: Mobile Responsiveness Fix
+- **Issue:** Preview link not viewable on mobile
+- **Changes:**
+  - Debug mobile viewport issues
+  - Ensure responsive design works on mobile devices
+  - Test on actual mobile device or emulator
+- **Files:** Layout components, CSS
+- **Success criteria:** Site is fully viewable and usable on mobile devices
+
+---
+
+### Task 11.2 – Home Page Updates
+
+#### 11.2.1 – Hero Image
+- **Change:** Replace current hero image with supply chain-focused image
+- **User to provide:** iStock image or similar
+- **File:** `src/services/pageDefaults.ts` → `homepage.heroImage`
+
+#### 11.2.2 – Metrics Section (Three blocks under image banner)
+- **Changes:**
+  - Change ALL CAPS to sentence case
+  - "AUDITED SPEND" → "Audited Spend" (or similar)
+  - Update labels:
+    - "Spend audited" → "Audited Spend" (verify $10B)
+    - "Invoices processed / year" → "Invoices processed each year" (provide average number, updated annually)
+    - "Typical savings band" → "Typical savings"
+  - Confirm if "leakage" is official terminology
+- **File:** `src/services/pageDefaults.ts` → `homepage.metrics`
+
+#### 11.2.3 – "Why Orca?" Section
+- **Changes:**
+  - Change heading "Why Orca?" → "Why audit your freight?"
+  - Change subtitle to: "Accurate freight audit with enhanced AI data-driven analytics from 10+ years of award-winning experts" (no period at end)
+  - Layout change: Have checkmark icon beside "Accuracy" title (inline), same for other icons
+  - Change "typically 3–8% of freight spend" text to: "Identify overcharges, duplicate billing, and contract violations with dispute resolution experts."
+- **File:** `src/services/pageDefaults.ts` → `homepage.valueProps`, `src/pages/HomePage.tsx`
+
+#### 11.2.4 – Trusted By Section
+- **Changes:**
+  - Change heading to "Trusted by Top Retail Enterprises"
+  - Keep the current image (great image!)
+  - Remove "10 years of proven freight audit expertise" (already said above)
+  - Replace with: "SOC2, ISO Certified, and Enterprise-grade security"
+  - Remove "invoices processed" block (duplicate of above), keep only "Global coverage" block
+- **File:** `src/services/pageDefaults.ts` → `homepage.trustedOperations`, `homepage.certifications`
+
+#### 11.2.5 – "What we do" Section
+- **Changes:**
+  - Change heading "What we do" → "How we help your enterprise"
+  - Remove period after "insights"
+  - Freight Audit: change "historical patterns" → "shipment details"
+  - Freight Payment: remove word "automated"
+  - A&R: change to "Custom and self-serve dashboards..."
+- **File:** `src/services/pageDefaults.ts` → `homepage.services`
+
+#### 11.2.6 – "See Orca in action" Section
+- **Changes:**
+  - Change heading to "Insights that matter"
+  - Make "Explore all platform features →" button bigger with larger font
+- **File:** `src/pages/HomePage.tsx`
+
+#### 11.2.7 – AI Section
+- **Changes:**
+  - Remove "Orca Intelligence" badge/label
+  - Change heading to "Freight insights through AI and machine learning"
+  - Change body text to bullet points:
+    - Detects anomalies, surfaces patterns, and provides recommendations to action
+    - Identify duplicate billing, unexpected surcharges, and lane variances
+    - Empower carrier renegotiations and mode optimization opportunities with enhanced data
+    - Instant insights through natural language exploration
+  - Remove the section on the right side (or add screenshot of bot once developed)
+  - Change "Learn more about Orca Intelligence" button to "AI & Data" (bigger button, bigger font)
+- **File:** `src/pages/HomePage.tsx`, `src/services/pageDefaults.ts`
+
+#### 11.2.8 – Testimonials Section
+- **Changes:**
+  - Question: Were you planning on having clickable enterprise type with updating testimonies?
+  - **Strong recommendation:** Remove entire section if we don't have real people with real names. Aliases look "shady"
+  - If keeping: Need actual customer names, titles, and quotes
+- **User decision required**
+- **File:** `src/pages/HomePage.tsx`, `src/services/pageDefaults.ts` → `homepage.testimonials`
+
+#### 11.2.9 – Certifications Section
+- **Change:** Remove "Compliant, Certified and Enterprise grade security" (mentioned above in Trusted By)
+- **File:** `src/pages/HomePage.tsx`, `src/services/pageDefaults.ts` → `homepage.certifications`
+
+#### 11.2.10 – Anniversary/Timeline Section
+- **Changes:**
+  - Remove "A decade of freight audit innovation"
+  - Replace with: "Trustworthy, reliable and innovative data-driven insights for over 10 years"
+  - Timeline items: Year founded, year logistics award, $10B+ audited, 2025 logistics award
+  - Remove AI/machine learning timeline items (it's expected now, not new)
+  - **User to provide:** List of awards
+- **File:** `src/services/pageDefaults.ts` → `homepage.timeline`
+
+#### 11.2.11 – Final CTA Section
+- **Changes:**
+  - Change heading from "Ready to transform your freight audit process?" to:
+  - "Join leading enterprise supply chain and finance experts who trust Orca to support their day-to-day impact on their organization"
+- **File:** `src/services/pageDefaults.ts` → `homepage.finalCTA`
+
+---
+
+### Task 11.3 – Solutions Page Updates
+
+#### 11.3.1 – Hero Description
+- **Change:** Update to: "Adaptable to your organization's needs—whether you're in finance, logistics, or procurement, and whether you ship LTL, FTL, parcel, or ocean/air."
+- **File:** `src/services/pageDefaults.ts` → `solutions.hero`
+
+#### 11.3.2 – Role Cards (Finance, Logistics, Procurement)
+- **Change:** Make percentage savings buttons larger font
+- **File:** `src/pages/SolutionsPage.tsx`
+
+#### 11.3.3 – Image
+- **Change:** Remove the image (breaks up text for no reason)
+- **File:** `src/pages/SolutionsPage.tsx`
+
+#### 11.3.4 – Savings Display
+- **Change:** Make savings stand out more / bigger font
+- **File:** `src/pages/SolutionsPage.tsx`
+
+#### 11.3.5 – Mode Cards (LTL, FTL, Parcel, Ocean/Air)
+- **Changes:**
+  - Remove the sentence descriptions (redundant with bullets)
+  - OR update sentences with catchy one-liners:
+    - LTL: "Can't fill a whole truckload? Make sure your LTL fees are as low as possible"
+    - FTL: "Do you know if your lanes are hindering your bottom line?"
+    - Parcel: "Extra charges adding up?"
+    - Ocean & Air: "Documentation for extra costs slipping through the cracks?"
+- **File:** `src/services/pageDefaults.ts` → `solutions.modes`
+
+---
+
+### Task 11.4 – Platform/Product Page Updates
+
+#### 11.4.1 – Page Title Research
+- **Question:** Should it be "Platform" or "Product"? Check research.
+- **Current:** "Platform"
+
+#### 11.4.2 – Module Sections
+- **Issue:** Headings, sentences, and bullets are repetitive (same as mode cards above)
+- **Question:** Will the images on the right be actual portal screenshots?
+
+#### 11.4.3 – Freight Audit & Payment
+- **Changes:**
+  - Question: Is "automated approvals" a good thing or risky?
+  - Remove sentence, just have bullets:
+    - 100% invoice accuracy
+    - Built-in approval thresholds
+    - AI-powered audit rules and exception detection
+    - Streamlined payables workflow
+- **File:** `src/services/pageDefaults.ts` → `product.modules[0]`
+
+#### 11.4.4 – Claims & Exceptions
+- **Change:** Remove sentence (bullets already say the same thing)
+- **File:** `src/services/pageDefaults.ts` → `product.modules[1]`
+
+#### 11.4.5 – Invoice Management & Accounting
+- **Changes:**
+  - Remove sentence
+  - Add bullet: "Forecasting and projections"
+- **File:** `src/services/pageDefaults.ts` → `product.modules[2]`
+
+#### 11.4.6 – Analytics & Reporting
+- **Change:** Remove sentence
+- **File:** `src/services/pageDefaults.ts` → `product.modules[3]`
+
+#### 11.4.7 – Integrations & Data Section
+- **CRITICAL:** Remove this section entirely
+- **Reason:** "Our system doesn't integrate with any TMS, ERP, WMS so this is misleading and is a sore spot because all files are sent via FTP and there's no actual API integrations."
+- **File:** `src/pages/ProductPage.tsx`, `src/services/pageDefaults.ts` → `product.integrations`
+
+#### 11.4.8 – Platform Outcomes
+- **Changes:**
+  - Remove "Platform Outcomes" section
+  - Move these three items to the TOP (after page tagline, before "Freight Audit & Payment")
+- **File:** `src/pages/ProductPage.tsx`, `src/services/pageDefaults.ts` → `product.outcomes`
+
+---
+
+### Task 11.5 – AI & Data Page Updates
+
+#### 11.5.1 – Images
+- **Change:** Remove both images
+- **File:** `src/pages/AiPage.tsx`
+
+#### 11.5.2 – Orca Intelligence Badge
+- **Change:** Remove "Orca Intelligence" badge
+- **File:** `src/services/pageDefaults.ts` → `ai.hero.badge`
+
+#### 11.5.3 – Hero Description
+- **Change:** Update sentence to: "Machine learning provides deep analysis into your network and $10B+ of freight audit spend."
+- **File:** `src/services/pageDefaults.ts` → `ai.hero.description`
+
+#### 11.5.4 – Data Foundation Section
+- **Changes:**
+  - Move "Data foundation" out of box as a page header
+  - Split into two buckets (currently one)
+- **File:** `src/pages/AiPage.tsx`
+
+#### 11.5.5 – Trust, Security, Governance
+- **Change:** Make these three items same font size as Pattern detection, Anomaly detection, Recommendations
+- **File:** `src/pages/AiPage.tsx`
+
+---
+
+### Task 11.6 – Results Page Updates
+
+#### 11.6.1 – Page Title
+- **Change:** Change to "Testimonies – Orca Freight Audit & Analytics AI"
+- **File:** `src/pages/ResultsPage.tsx`
+
+#### 11.6.2 – Hero Image
+- **Question:** Will an image be added?
+
+#### 11.6.3 – E-commerce Distributor Case Study
+- **Change:** Change image to parcel-focused image
+- **User to provide:** Parcel-focused image
+- **File:** `src/services/pageDefaults.ts` → `results.caseStudyImages[2]`
+
+#### 11.6.4 – CTA Button
+- **Change:** Change button text to "Contact us now"
+- **File:** `src/services/pageDefaults.ts` → `results.finalCTA`
+
+---
+
+### Task 11.7 – About Page Updates
+
+#### 11.7.1 – Headline
+- **Change:** Remove "now" from headline sentence
+- **Current:** "Ten years of freight audit expertise, now enhanced with AI-powered analytics and automation."
+- **New:** "Ten years of freight audit expertise, enhanced with AI-powered analytics and automation."
+- **File:** `src/services/pageDefaults.ts` → `about.hero.description`
+
+#### 11.7.2 – Team Image
+- **Changes:**
+  - Remove first image placeholder
+  - Replace with photo of Matt & Marco
+- **User to provide:** Matt & Marco photo
+- **File:** `src/services/pageDefaults.ts` → `about.teamImages`
+
+#### 11.7.3 – Value Props
+- **Change:** Apply same changes as homepage value props buckets
+- **File:** `src/services/pageDefaults.ts` → `about.values`
+
+#### 11.7.4 – Responsibility Section
+- **Change:** Make same size bucket as other value cards (not a long bucket)
+- **File:** `src/pages/AboutPage.tsx`
+
+---
+
+### Implementation Priority
+
+**Phase A – Quick Wins (No user input needed):**
+1. Task 11.0 – Global font size increase
+2. Task 11.1 – Mobile responsiveness fix
+3. Remove "Orca Intelligence" badges across site
+4. Remove Integrations section from Platform page
+5. Text changes that don't require verification
+6. Remove ALL CAPS, change to sentence case
+
+**Phase B – Content Updates (After user provides input):**
+1. Hero image replacement
+2. Testimonials decision (keep with real names or remove)
+3. Timeline/awards updates
+4. Matt & Marco photo
+5. Portal screenshots
+6. Parcel-focused image
+
+**Phase C – Layout Changes:**
+1. Restructure value props (icon inline with title)
+2. Move Platform Outcomes to top
+3. Data Foundation section restructure
+4. Button size increases
+
+---
+
+### Project Status Board
+
+- [ ] Task 11.0 – Global font size increase
+- [ ] Task 11.1 – Mobile responsiveness fix
+- [ ] Task 11.2 – Home page updates (12 sub-tasks)
+- [ ] Task 11.3 – Solutions page updates (5 sub-tasks)
+- [ ] Task 11.4 – Platform page updates (8 sub-tasks)
+- [ ] Task 11.5 – AI & Data page updates (5 sub-tasks)
+- [ ] Task 11.6 – Results page updates (4 sub-tasks)
+- [ ] Task 11.7 – About page updates (4 sub-tasks)
+
+### Executor's Feedback or Assistance Requests
+
+*Awaiting user input on items listed in "Items Requiring User Input" table above.*
 

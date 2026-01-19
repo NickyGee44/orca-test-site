@@ -5,9 +5,9 @@ import type { ModuleSection, CTASection } from "../types/content";
 
 export function ProductPage() {
   usePageMetadata({
-    title: "Platform – Orca Freight Audit Platform",
+    title: "Freight Audit Platform | Invoice Auditing & Payment | Orca",
     description:
-      "See how Orca unifies freight audit, payment, claims, and analytics into a single AI-assisted platform."
+      "Unified freight audit, payment, and analytics platform. 100% invoice accuracy, AI-powered exception detection, and streamlined payables workflow."
   });
 
   const { getSection } = usePageContent({
@@ -30,6 +30,20 @@ export function ProductPage() {
           {hero.description || "A unified platform for freight audit, payment, and analytics—all in one place, powered by AI and a decade of freight data."}
         </p>
       </section>
+
+      {/* Outcomes moved to top per feedback */}
+      {outcomes.length > 0 && (
+      <section className="grid gap-4 sm:grid-cols-3">
+          {outcomes.map((outcome, i) => (
+          <div
+              key={i}
+            className="rounded-tile border border-cyan-400/20 bg-cyan-400/5 p-5 text-base text-slate-200 text-center font-medium"
+          >
+            {outcome}
+          </div>
+        ))}
+      </section>
+      )}
 
       {modules.length > 0 && (
       <section className="space-y-8">
@@ -112,23 +126,7 @@ export function ProductPage() {
       </section>
       )}
 
-      {outcomes.length > 0 && (
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold text-slate-50">
-          Platform outcomes
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-3">
-            {outcomes.map((outcome, i) => (
-            <div
-                key={i}
-              className="rounded-tile border border-slate-800/70 bg-slate-950/60 p-4 text-sm text-slate-300"
-            >
-              {outcome}
-            </div>
-          ))}
-        </div>
-      </section>
-      )}
+      {/* Outcomes section removed from here - now at top */}
 
       {finalCTA && finalCTA.ctaPrimary && (
       <section className="text-center">

@@ -6,9 +6,9 @@ import type { CTASection, ImageSection } from "../types/content";
 
 export function AiPage() {
   usePageMetadata({
-    title: "AI & Data – Orca Intelligence",
+    title: "AI & Data | Freight Analytics & Machine Learning | Orca",
     description:
-      "Learn how Orca Intelligence uses your freight data and AI to detect anomalies, surface savings, and keep your audit always-on."
+      "AI-powered freight audit analytics. Machine learning detects anomalies, surfaces patterns, and recommends cost-saving actions across your supply chain."
   });
 
   const { getSection } = usePageContent({

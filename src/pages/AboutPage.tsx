@@ -6,9 +6,9 @@ import type { TimelineItemSection, ValueSection, CTASection, ImageSection } from
 
 export function AboutPage() {
   usePageMetadata({
-    title: "About Orca – 10 Years of Freight Audit",
+    title: "About Orca | Award-Winning Freight Audit Company",
     description:
-      "Learn about Orca's ten-year journey in freight audit, the team behind the platform, and how we partner with shippers."
+      "Award-winning freight audit and analytics company. Founded in 2016, Orca partners with enterprise shippers to optimize freight spend and supply chain operations."
   });
 
   const { getSection } = usePageContent({

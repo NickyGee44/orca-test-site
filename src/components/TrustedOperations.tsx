@@ -7,12 +7,14 @@ import { ImageBlock } from "./ImageBlock";
 import type { ImageSection, MetricSection } from "../types/content";
 
 interface TrustedOperationsProps {
+  title?: string;
   image?: ImageSection;
   trustStatements?: string[];
   metrics?: MetricSection[];
 }
 
 export function TrustedOperations({
+  title = "Trusted by Top Retail Enterprises",
   image,
   trustStatements = [],
   metrics = []
@@ -42,7 +44,7 @@ export function TrustedOperations({
         <div className="space-y-6">
           <div>
             <h2 className="mb-4 text-2xl font-semibold text-slate-50 sm:text-3xl">
-              Trusted by leading enterprises
+              {title}
             </h2>
             {trustStatements.length > 0 && (
               <ul className="space-y-3 text-sm text-slate-300">

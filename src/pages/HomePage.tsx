@@ -12,9 +12,9 @@ import type { HeroSection, MetricSection, ImageSection, MockupSection, ValueProp
 
 export function HomePage() {
   usePageMetadata({
-    title: "Orca – Freight Audit & Analytics AI",
+    title: "Orca – Freight Audit & Analytics AI | Reduce Shipping Costs",
     description:
-      "Orca connects freight audit, payment, and analytics into a single AI-assisted platform so you catch overcharges, surface patterns, and make confident decisions."
+      "Reduce freight costs by 3-8% with Orca's AI-powered freight audit and payment platform. Catch overcharges, surface patterns, and optimize your supply chain spend."
   });
 
   const { getSection } = usePageContent({
@@ -165,15 +165,15 @@ export function HomePage() {
         ))}
       </section>
 
-      {/* Why Orca? value props */}
+      {/* Why audit your freight? value props */}
       {valueProps && valueProps.length > 0 && (
         <section className="space-y-6">
           <div className="text-center">
             <h2 className="text-2xl font-semibold text-slate-50 sm:text-3xl">
-              Why Orca?
+              {getSection<{ whyAuditTitle?: string }>("whyAuditTitle", { whyAuditTitle: "Why audit your freight?" }).whyAuditTitle || "Why audit your freight?"}
             </h2>
             <p className="mt-2 text-sm text-slate-400 sm:text-base">
-              A decade of freight audit expertise, now enhanced with AI-driven analytics and automation.
+              {getSection<{ whyAuditSubtitle?: string }>("whyAuditSubtitle", { whyAuditSubtitle: "Accurate freight audit with enhanced AI data-driven analytics from 10+ years of award-winning experts" }).whyAuditSubtitle || "Accurate freight audit with enhanced AI data-driven analytics from 10+ years of award-winning experts"}
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -182,11 +182,13 @@ export function HomePage() {
                 key={idx}
                 className="glass-panel rounded-panel border border-slate-800/70 bg-orca-panel/80 p-5 shadow-orca-panel transition hover:border-slate-700/50"
               >
-                {prop.icon && <div className="mb-3 text-2xl">{prop.icon}</div>}
-                <h3 className="mb-2 text-base font-semibold text-slate-50">
-                  {prop.title}
-                </h3>
-                <p className="text-xs text-slate-300 sm:text-sm">
+                <div className="mb-3 flex items-center gap-3">
+                  {prop.icon && <span className="text-2xl text-cyan-400">{prop.icon}</span>}
+                  <h3 className="text-base font-semibold text-slate-50">
+                    {prop.title}
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-300">
                   {prop.description}
                 </p>
               </div>
@@ -198,21 +200,22 @@ export function HomePage() {
       {/* Trusted Operations section */}
       {trustedOperations && (trustedOperations.image?.imageUrl || trustedOperations.trustStatements?.length || trustedOperations.metrics?.length) && (
         <TrustedOperations
+          title={(trustedOperations as { title?: string }).title || "Trusted by Top Retail Enterprises"}
           image={trustedOperations.image}
           trustStatements={trustedOperations.trustStatements}
           metrics={trustedOperations.metrics}
         />
       )}
 
-      {/* What we do - services overview */}
+      {/* How we help your enterprise - services overview */}
       {services && services.length > 0 && (
         <section className="space-y-6">
           <div className="text-center">
             <h2 className="text-2xl font-semibold text-slate-50 sm:text-3xl">
-              What we do
+              How we help your enterprise
             </h2>
             <p className="mt-2 text-sm text-slate-400 sm:text-base">
-              End-to-end freight audit and analytics, from invoice ingestion to actionable insights.
+              End-to-end freight audit and analytics, from invoice ingestion to actionable insights
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -222,10 +225,10 @@ export function HomePage() {
                 href={service.link || "#"}
                 className="glass-panel rounded-panel border border-slate-800/70 bg-orca-panel/80 p-5 shadow-orca-panel transition hover:border-cyan-500/30 hover:shadow-orca-glow-cyan"
               >
-                <h3 className="mb-2 text-base font-semibold text-slate-50">
+                <h3 className="mb-2 text-lg font-semibold text-slate-50">
                   {service.title}
                 </h3>
-                <p className="text-xs text-slate-300 sm:text-sm">
+                <p className="text-sm text-slate-300">
                   {service.description}
                 </p>
               </a>
@@ -238,10 +241,10 @@ export function HomePage() {
       <section className="space-y-6">
         <div className="text-center">
           <h2 className="text-2xl font-semibold text-slate-50 sm:text-3xl">
-            See Orca in action
+            Insights that matter
           </h2>
           <p className="mt-2 text-sm text-slate-400 sm:text-base">
-            A unified platform for freight audit, payment, and analytics—all in one place.
+            A unified platform for freight audit, payment, and analytics—all in one place
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
@@ -330,79 +333,45 @@ export function HomePage() {
         <div className="text-center">
           <a
             href="/product"
-            className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/40 px-4 py-2 text-xs font-medium text-slate-200 transition hover:border-slate-500 hover:text-slate-50"
+            className="inline-flex items-center gap-2 rounded-button border border-cyan-500/50 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 px-6 py-3 text-base font-semibold text-slate-50 transition hover:border-cyan-400 hover:shadow-orca-glow-cyan"
           >
             Explore all platform features →
           </a>
         </div>
       </section>
 
-      {/* AI section */}
+      {/* AI section - Updated per feedback */}
       <section className="glass-panel rounded-panel border border-slate-800/70 bg-orca-panel/80 p-6 shadow-orca-panel sm:p-8">
-        <div className="grid gap-8 md:grid-cols-[minmax(0,1fr),minmax(0,1.2fr)] md:items-center">
+        <div className="space-y-6">
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-purple-400/30 bg-purple-400/10 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-purple-200">
-              <span className="h-1.5 w-1.5 rounded-full bg-purple-300 shadow-orca-glow-purple" />
-              Orca Intelligence
-            </div>
             <h2 className="text-2xl font-semibold text-slate-50 sm:text-3xl">
-              AI that learns your freight patterns
+              Freight insights through AI and machine learning
             </h2>
-            <p className="text-sm text-slate-300 sm:text-base">
-              Orca Intelligence uses machine learning to detect anomalies, surface patterns, and recommend actions—all grounded in 10 years of freight audit data.
-            </p>
-            <ul className="space-y-2 text-xs text-slate-300 sm:text-sm">
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-cyan-400">•</span>
-                <span>Pattern detection: Identify duplicate billing, unexpected surcharges, and lane variance</span>
+            <ul className="space-y-3 text-sm text-slate-300 sm:text-base">
+              <li className="flex items-start gap-3">
+                <span className="mt-1 text-cyan-400">•</span>
+                <span>Detects anomalies, surfaces patterns, and provides recommendations to action</span>
               </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-purple-400">•</span>
-                <span>Recommendations: Surface renegotiation targets, carrier mix shifts, and mode optimization opportunities</span>
+              <li className="flex items-start gap-3">
+                <span className="mt-1 text-purple-400">•</span>
+                <span>Identify duplicate billing, unexpected surcharges, and lane variances</span>
               </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-cyan-400">•</span>
-                <span>Natural language exploration: Ask Orca about your freight data and get instant insights</span>
+              <li className="flex items-start gap-3">
+                <span className="mt-1 text-cyan-400">•</span>
+                <span>Empower carrier renegotiations and mode optimization opportunities with enhanced data</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1 text-purple-400">•</span>
+                <span>Instant insights through natural language exploration</span>
               </li>
             </ul>
-            <div className="pt-2">
+            <div className="pt-4">
               <a
                 href="/ai"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/40 px-4 py-2 text-xs font-medium text-slate-200 transition hover:border-slate-500 hover:text-slate-50"
+                className="inline-flex items-center gap-2 rounded-button bg-gradient-to-r from-cyan-400 to-purple-500 px-8 py-4 text-base font-semibold text-slate-950 shadow-orca-glow-cyan transition hover:shadow-orca-glow-purple"
               >
-                Learn more about Orca Intelligence →
+                AI & Data
               </a>
-            </div>
-          </div>
-          <div className="relative">
-            <div className="pointer-events-none absolute -inset-10 rounded-full bg-[radial-gradient(circle,_rgba(168,85,247,0.25),_transparent_60%)] blur-3xl" />
-            <div className="relative overflow-hidden rounded-panel border border-purple-400/30 bg-slate-900/70 p-5 shadow-orca-glow-purple">
-              <div className="mb-4 flex items-center justify-between text-[11px] text-slate-400">
-                <span>AI Insights</span>
-                <span className="rounded-full bg-purple-500/20 px-2 py-0.5 text-[10px] text-purple-200">
-                  Active
-                </span>
-              </div>
-              <div className="space-y-3 text-xs text-slate-200">
-                <div className="rounded-tile bg-slate-900/80 px-3 py-2">
-                  <div className="mb-1 font-medium">Anomaly detected</div>
-                  <div className="text-[11px] text-slate-300">
-                    Fuel surcharge variance on LTL lanes increased 12% vs last quarter
-                  </div>
-                </div>
-                <div className="rounded-tile bg-slate-900/60 px-3 py-2 text-purple-100">
-                  <div className="mb-1 font-medium">Recommendation</div>
-                  <div className="text-[11px] text-slate-300">
-                    Review carrier contracts for Chicago → Dallas route; potential renegotiation opportunity
-                  </div>
-                </div>
-                <div className="rounded-tile bg-slate-900/60 px-3 py-2 text-cyan-100">
-                  <div className="mb-1 font-medium">Pattern identified</div>
-                  <div className="text-[11px] text-slate-300">
-                    Duplicate billing pattern detected across 3 carriers; automated flagging enabled
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

@@ -17,10 +17,12 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
           badge: "Freight Audit & Analytics AI"
         },
         metrics: [
-          { label: "Spend audited", value: "$10B+", hint: "Across modes and regions" },
-          { label: "Invoices processed / year", value: "Millions", hint: "High-volume enterprise freight" },
-          { label: "Typical savings band", value: "3–8%", hint: "From overcharges and leakage" }
+          { label: "Audited spend", value: "Billions+", hint: "Across modes and regions" },
+          { label: "Invoices processed each year", value: "Millions", hint: "High-volume enterprise freight" },
+          { label: "Typical savings", value: "3–8%", hint: "From overcharges and leakage" }
         ],
+        whyAuditTitle: "Why audit your freight?",
+        whyAuditSubtitle: "Accurate freight audit with enhanced AI data-driven analytics from 10+ years of award-winning experts",
         valueProps: [
           {
             title: "Accuracy",
@@ -29,7 +31,7 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
           },
           {
             title: "Savings",
-            description: "Identify overcharges, duplicate billing, and contract violations—typically 3–8% of freight spend.",
+            description: "Identify overcharges, duplicate billing, and contract violations with dispute resolution experts.",
             icon: "$"
           },
           {
@@ -43,45 +45,36 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
             icon: "🔒"
           }
         ],
+        servicesTitle: "How we help your enterprise",
         services: [
           {
             title: "Freight Audit",
-            description: "Automated invoice validation against contracts, rates, and historical patterns.",
+            description: "Automated invoice validation against contracts, rates, and shipment details",
             link: "/product"
           },
           {
             title: "Freight Payment",
-            description: "Streamlined payables workflow with automated approvals and exception handling.",
+            description: "Streamlined payables workflow with approvals and exception handling",
             link: "/product"
           },
           {
             title: "Analytics & Reporting",
-            description: "Self-serve dashboards, benchmarking, and trend analysis across your network.",
+            description: "Custom and self-serve dashboards, benchmarking, and trend analysis across your network",
             link: "/ai"
           },
           {
             title: "Claims & Exceptions",
-            description: "AI-flagged discrepancies with resolution workflows and carrier communication.",
+            description: "AI-flagged discrepancies with resolution workflows and carrier communication",
             link: "/product"
           },
           {
             title: "Invoice Management",
-            description: "Centralized invoice processing, GL coding, and accrual management.",
+            description: "Centralized invoice processing, GL coding, and accrual management",
             link: "/product"
           }
         ],
-        testimonials: [
-          {
-            quote: "Orca identified $2.3M in overcharges in our first quarter. The AI-powered exception detection is game-changing.",
-            author: "VP of Logistics",
-            company: "Fortune 500 Retailer"
-          },
-          {
-            quote: "We've reduced invoice processing time by 60% and eliminated manual audit work. Orca's analytics help us make better carrier decisions.",
-            author: "Director of Supply Chain",
-            company: "Global Manufacturer"
-          }
-        ],
+        // Testimonials removed - no real customer names available
+        testimonials: [],
         trustBadges: [
           { label: "Fortune 500" },
           { label: "Enterprise" },
@@ -90,20 +83,16 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
           { label: "Manufacturing" },
           { label: "E-commerce" }
         ],
-        certifications: [
-          { label: "SOC 2", badge: "Compliant" },
-          { label: "ISO", badge: "Certified" },
-          { label: "Secure", badge: "Enterprise-grade security" }
-        ],
+        // Certifications consolidated into trustedOperations
+        certifications: [],
         timeline: [
-          { year: "2014", title: "Founded", description: "Orca launched with a mission to make freight audit accurate, automated, and accessible." },
-          { year: "2017", title: "$1B audited", description: "Reached our first billion in audited freight spend, proving the value of systematic audit." },
-          { year: "2020", title: "AI engine launched", description: "Introduced Orca Intelligence, bringing machine learning to freight audit and analytics." },
-          { year: "2024", title: "$10B+ audited", description: "Celebrating 10 years and $10B+ in audited spend, now powered by next-generation AI." }
+          { year: "2016", title: "Founded", description: "Orca launched with a mission to make freight audit accurate, automated, and accessible." },
+          { year: "2024", title: "Business of the Year", description: "Winner of London Chamber of Commerce Business of the Year – Medium category." },
+          { year: "2024", title: "Billions+ audited", description: "Reached billions in audited freight spend across enterprise shippers worldwide." }
         ],
         finalCTA: {
-          title: "Ready to transform your freight audit process?",
-          description: "Join leading enterprises who trust Orca to audit millions of invoices and surface actionable insights—all powered by AI and a decade of freight data.",
+          title: "Join leading enterprise supply chain and finance experts who trust Orca to support their day-to-day impact on their organization",
+          description: "",
           ctaPrimary: "Book a demo",
           ctaSecondary: "See customer results",
           ctaPrimaryLink: "/contact",
@@ -111,36 +100,48 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
           note: "No credit card required • Free analysis of your freight spend • Enterprise-ready security"
         },
         anniversaryBanner: {
-          text: "Celebrating 10 years of freight audit innovation"
+          text: "Trustworthy, reliable and innovative data-driven insights for over 10 years"
         },
         heroImage: {
-          imageUrl: "/images/home-hero.png",
-          alt: "Freight and logistics team collaborating at a port",
+          imageUrl: "/images/home-hero2.png",
+          alt: "Supply chain and logistics technology concept",
           layout: "contained"
         },
         trustedOperations: {
+          title: "Trusted by Top Retail Enterprises",
           image: {
             imageUrl: "/images/placeholders/home-business-logistics.jpg",
             alt: "Logistics and finance teams collaborating on freight operations",
             layout: "contained"
           },
           trustStatements: [
-            "Enterprise-grade security and compliance",
-            "Bank-level payment controls and audit trails",
-            "10 years of proven freight audit expertise"
+            "SOC2 and ISO Certified",
+            "Enterprise-grade security",
+            "Bank-level payment controls and audit trails"
           ],
           metrics: [
-            { label: "Invoices processed", value: "Millions", hint: "Annually" },
             { label: "Global coverage", value: "185+", hint: "Countries" }
           ]
-        }
+        },
+        aiSection: {
+          title: "Freight insights through AI and machine learning",
+          bullets: [
+            "Detects anomalies, surfaces patterns, and provides recommendations to action",
+            "Identify duplicate billing, unexpected surcharges, and lane variances",
+            "Empower carrier renegotiations and mode optimization opportunities with enhanced data",
+            "Instant insights through natural language exploration"
+          ],
+          ctaText: "AI & Data",
+          ctaLink: "/ai"
+        },
+        insightsTitle: "Insights that matter"
       };
 
     case "solutions":
       return {
         hero: {
           title: "Solutions for every team and freight mode",
-          description: "Orca adapts to your organization's needs—whether you're in finance, logistics, or procurement, and whether you ship LTL, FTL, parcel, or ocean/air."
+          description: "Adaptable to your organization's needs—whether you're in finance, logistics, or procurement, and whether you ship LTL, FTL, parcel, or ocean/air."
         },
         roles: [
           {
@@ -168,36 +169,31 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
         modes: [
           {
             title: "LTL (Less-Than-Truckload)",
-            description: "Audit LTL invoices for accurate class, weight, and accessorial charges.",
+            description: "Can't fill a whole truckload? Make sure your LTL fees are as low as possible.",
             benefits: ["Class verification", "Weight audits", "Accessorial validation"],
-            example: "Typical savings: 4–7% of LTL spend"
+            example: "Typical savings: 4–7%"
           },
           {
             title: "FTL (Full-Truckload)",
-            description: "Validate FTL rates against contracts and detect fuel surcharge variance.",
+            description: "Do you know if your lanes are hindering your bottom line?",
             benefits: ["Rate validation", "Fuel surcharge audits", "Route optimization"],
-            example: "Typical savings: 3–6% of FTL spend"
+            example: "Typical savings: 3–6%"
           },
           {
             title: "Parcel",
-            description: "Catch dimensional weight errors, zone misclassifications, and surcharge overcharges.",
+            description: "Extra charges adding up?",
             benefits: ["DIM weight audits", "Zone validation", "Surcharge detection"],
-            example: "Typical savings: 5–10% of parcel spend"
+            example: "Typical savings: 5–10%"
           },
           {
             title: "Ocean & Air",
-            description: "Audit international freight for accurate rates, surcharges, and documentation fees.",
+            description: "Documentation for extra costs slipping through the cracks?",
             benefits: ["Rate compliance", "Surcharge validation", "Documentation audits"],
-            example: "Typical savings: 2–5% of international spend"
+            example: "Typical savings: 2–5%"
           }
         ],
-        modeImages: [
-          {
-            imageUrl: "/images/placeholders/solutions-truck.jpg",
-            alt: "Freight transportation modes",
-            layout: "contained"
-          }
-        ],
+        // Image removed per feedback - breaks up text unnecessarily
+        modeImages: [],
         finalCTA: {
           title: "Talk to us about your network",
           description: "Every freight network is unique. Let's discuss how Orca can support your specific needs.",
@@ -212,60 +208,59 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
           title: "The Orca Platform",
           description: "A unified platform for freight audit, payment, and analytics—all in one place, powered by AI and a decade of freight data."
         },
-        modules: [
-          {
-            title: "Freight Audit & Payment",
-            description: "100% invoice accuracy through automated audit rules and AI-powered exception detection. Streamlined payables workflow with automated approvals.",
-            features: ["Automated invoice validation", "Contract and rate compliance", "Exception flagging", "Automated payment workflows"],
-            preview: "Ledger view with audit status, exceptions, and payment queue"
-          },
-          {
-            title: "Claims & Exceptions",
-            description: "AI-flagged discrepancies with resolution workflows and carrier communication. Track exceptions from detection to resolution.",
-            features: ["AI-powered exception detection", "Resolution workflows", "Carrier communication", "Audit trails"],
-            preview: "Exceptions center with flagged invoices, status, and actions"
-          },
-          {
-            title: "Invoice Management & Accounting",
-            description: "Centralized invoice processing, GL coding, and accrual management. Improve invoice workflows and projections.",
-            features: ["Centralized invoice processing", "Automated GL coding", "Accrual management", "Lane/cost breakdowns"],
-            preview: "Invoice dashboard with GL codes, accruals, and cost analysis"
-          },
-          {
-            title: "Analytics & Reporting",
-            description: "Self-serve dashboards, benchmarking, and trend analysis. Real-time visibility into freight spend and performance.",
-            features: ["Real-time dashboards", "Self-serve reports", "Benchmarking", "Trend analysis"],
-            preview: "Analytics library with customizable reports and benchmarks"
-          }
-        ],
-        integrations: {
-          title: "Integrations & data",
-          description: "Orca integrates with your existing systems—TMS, ERP, warehouse management—to ingest freight data seamlessly and keep your audit always-on.",
-          items: ["TMS", "ERP", "WMS", "Carrier APIs", "EDI"]
-        },
+        // Outcomes moved to top per feedback
         outcomes: [
           "60% reduction in invoice processing time",
           "3–8% savings from overcharge detection",
           "95% fewer disputes with automated audit trails"
         ],
+        modules: [
+          {
+            title: "Freight Audit & Payment",
+            description: "", // Description removed per feedback - bullets say the same thing
+            features: ["100% invoice accuracy", "Built-in approval thresholds", "AI-powered audit rules and exception detection", "Streamlined payables workflow"],
+            preview: "Freight Audit Dashboard",
+            screenshotNeeded: true
+          },
+          {
+            title: "Claims & Exceptions",
+            description: "", // Description removed per feedback
+            features: ["AI-powered exception detection", "Resolution workflows", "Carrier communication", "Audit trails"],
+            preview: "Exceptions Center",
+            screenshotNeeded: true
+          },
+          {
+            title: "Invoice Management & Accounting",
+            description: "", // Description removed per feedback
+            features: ["Centralized invoice processing", "Automated GL coding", "Accrual management", "Forecasting and projections"],
+            preview: "Invoice Dashboard",
+            screenshotNeeded: true
+          },
+          {
+            title: "Analytics & Reporting",
+            description: "", // Description removed per feedback
+            features: ["Real-time dashboards", "Self-serve reports", "Benchmarking", "Trend analysis"],
+            preview: "Analytics Library",
+            screenshotNeeded: true
+          }
+        ],
+        // Integrations section REMOVED per feedback - no actual API integrations exist
+        integrations: null,
         finalCTA: {
           title: "Request a platform demo",
           ctaPrimary: "Request a platform demo",
           ctaPrimaryLink: "/contact"
         },
-        integrationImage: {
-          imageUrl: "/images/placeholders/product-integrations.jpg",
-          alt: "System integrations",
-          layout: "contained"
-        }
+        integrationImage: null
       };
 
     case "ai":
       return {
         hero: {
-          badge: "Orca Intelligence",
+          // Badge removed per feedback - no "Orca Intelligence" branding
+          badge: "",
           title: "AI that learns your freight patterns",
-          description: "Orca Intelligence uses machine learning to detect anomalies, surface patterns, and recommend actions—all grounded in 10 years of freight audit data."
+          description: "Machine learning provides deep analysis into your network and billions of freight audit spend."
         },
         capabilities: [
           {
@@ -287,100 +282,101 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
             icon: "💡"
           }
         ],
+        // Data foundation moved out of box as page header, split into two buckets
+        dataFoundationTitle: "Data foundation",
         dataFoundation: [
           {
-            title: "10-year history advantage",
-            description: "Orca has audited $10B+ in freight spend across millions of invoices, creating a rich dataset that powers our AI models. This historical context helps us identify patterns and anomalies that would be invisible to rule-based systems alone."
+            title: "10+ year history advantage",
+            description: "Orca has audited billions in freight spend across millions of invoices, creating a rich dataset that powers our AI models. This historical context helps us identify patterns and anomalies that would be invisible to rule-based systems alone."
           },
           {
             title: "Consistent, normalized data",
             description: "All freight data—from invoices to carrier contracts to shipment details—is normalized and structured consistently. This enables accurate pattern detection, benchmarking, and trend analysis across your entire network."
           }
         ],
+        // Trust, security, governance - same font size as capabilities per feedback
         trustSecurity: [
           {
-            title: "Data handling",
-            description: "Enterprise-grade encryption, secure data storage, and SOC 2 compliance."
+            title: "Trust",
+            description: "Enterprise-grade encryption, secure data storage, and SOC 2 compliance.",
+            icon: "🔒"
           },
           {
-            title: "Permissions",
-            description: "Role-based access control so teams see only the data they need."
+            title: "Security",
+            description: "Role-based access control so teams see only the data they need.",
+            icon: "🛡️"
           },
           {
-            title: "Auditability",
-            description: "Complete audit trails for all AI decisions and recommendations."
+            title: "Governance",
+            description: "Complete audit trails for all AI decisions and recommendations.",
+            icon: "📋"
           }
         ],
         finalCTA: {
-          title: "Ready to see Orca Intelligence in action?",
+          title: "Ready to see AI-powered freight audit in action?",
           description: "See how AI-powered freight audit can transform your operations.",
           ctaPrimary: "Book a demo",
           ctaPrimaryLink: "/contact"
         },
-        heroBackgroundImage: {
-          imageUrl: "/images/placeholders/ai-datacenter.jpg",
-          alt: "Data infrastructure",
-          layout: "full-width"
-        },
-        architectureImage: {
-          imageUrl: "/images/placeholders/ai-architecture.jpg",
-          alt: "AI architecture",
-          layout: "contained"
-        }
+        // Images removed per feedback
+        heroBackgroundImage: null,
+        architectureImage: null
       };
 
     case "results":
       return {
         hero: {
           title: "Results that speak for themselves",
-          description: "10 years of audited spend. Here's what that looks like in outcomes for our customers."
+          description: "Years of audited spend. Here's what that looks like in outcomes for our customers."
         },
+        // Case studies with vague customer descriptions (no specific client names)
         caseStudies: [
           {
             title: "Fortune 500 Retailer",
             problem: "Manual freight audit process couldn't scale with growing volume. Overcharges going undetected.",
             approach: "Implemented Orca's automated audit platform with AI-powered exception detection across LTL and parcel networks.",
             results: [
-              "$2.3M in overcharges identified in first quarter",
+              "Millions in overcharges identified in first year",
               "60% reduction in invoice processing time",
               "95% reduction in manual audit work"
             ],
-            quote: "Orca identified $2.3M in overcharges in our first quarter. The AI-powered exception detection is game-changing.",
-            author: "VP of Logistics"
+            // Quote removed - no real customer names
+            quote: "",
+            author: ""
           },
           {
             title: "Global Manufacturer",
             problem: "Lack of visibility into freight spend and carrier performance. No systematic way to catch billing errors.",
             approach: "Deployed Orca for end-to-end freight audit, payment, and analytics across FTL and ocean freight.",
             results: [
-              "4.2% average savings on audited spend",
+              "Significant savings on audited spend",
               "Real-time visibility into freight costs",
               "Improved carrier performance tracking"
             ],
-            quote: "We've reduced invoice processing time by 60% and eliminated manual audit work. Orca's analytics help us make better carrier decisions.",
-            author: "Director of Supply Chain"
+            quote: "",
+            author: ""
           },
           {
             title: "E-commerce Distributor",
             problem: "High parcel spend with frequent dimensional weight and zone misclassifications. No audit process in place.",
             approach: "Integrated Orca's parcel audit capabilities with existing shipping systems for real-time validation.",
             results: [
-              "7.5% savings on parcel spend",
+              "Substantial savings on parcel spend",
               "Automated dimensional weight audits",
               "Zone misclassification detection"
             ],
-            quote: "Orca caught thousands in overcharges we never would have found. The ROI was immediate.",
-            author: "Head of Operations"
+            quote: "",
+            author: ""
           }
         ],
         aggregateMetrics: [
-          { label: "Spend audited", value: "$10B+", hint: "Across all modes and regions" },
+          { label: "Spend audited", value: "Billions+", hint: "Across all modes and regions" },
           { label: "Invoices processed", value: "Millions", hint: "Per year, high-volume enterprise freight" },
           { label: "Average savings", value: "3–8%", hint: "Typical range from overcharge detection" }
         ],
         finalCTA: {
           title: "See how Orca can help your organization",
-          ctaPrimary: "See how Orca can help your organization",
+          ctaPrimary: "Contact us now",
           ctaPrimaryLink: "/contact"
         },
         caseStudyImages: [
@@ -395,8 +391,9 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
             layout: "contained"
           },
           {
+            // Parcel-focused image needed per feedback
             imageUrl: "/images/placeholders/results-ecommerce.jpg",
-            alt: "E-commerce fulfillment",
+            alt: "E-commerce parcel fulfillment - IMAGE NEEDED: parcel-focused",
             layout: "contained"
           }
         ]
@@ -406,44 +403,50 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
       return {
         hero: {
           title: "About Orca",
-          description: "Ten years of freight audit expertise, now enhanced with AI-powered analytics and automation."
+          // Removed "now" per feedback
+          description: "Ten years of freight audit expertise, enhanced with AI-powered analytics and automation."
         },
         story: [
-          "Orca was founded in 2014 with a simple mission: make freight audit accurate, automated, and accessible. At the time, most shippers relied on manual processes or outsourced audit services that were slow, expensive, and inconsistent.",
-          "Over the next decade, we built a platform that automated freight audit at scale—processing millions of invoices and auditing billions in freight spend. We learned the patterns, the exceptions, and the opportunities hidden in freight data.",
-          "Today, Orca is Freight Audit & Analytics AI. We combine a decade of freight audit expertise with next-generation AI to help shippers catch overcharges, surface patterns, and make confident decisions. The mission remains the same: accuracy, transparency, and partnership in every audit."
+          "Orca was founded in 2016 with a simple mission: make freight audit accurate, automated, and accessible. At the time, most shippers relied on manual processes or outsourced audit services that were slow, expensive, and inconsistent.",
+          "Over the years, we built a platform that automated freight audit at scale—processing millions of invoices and auditing billions in freight spend. We learned the patterns, the exceptions, and the opportunities hidden in freight data.",
+          "Today, Orca is Freight Audit & Analytics AI. We combine years of freight audit expertise with next-generation AI to help shippers catch overcharges, surface patterns, and make confident decisions. The mission remains the same: accuracy, transparency, and partnership in every audit."
         ],
         timeline: [
-          { year: "2014", title: "Founded", description: "Orca launched with a mission to make freight audit accurate, automated, and accessible." },
-          { year: "2017", title: "$1B audited", description: "Reached our first billion in audited freight spend, proving the value of systematic audit." },
-          { year: "2020", title: "AI engine launched", description: "Introduced Orca Intelligence, bringing machine learning to freight audit and analytics." },
-          { year: "2024", title: "$10B+ audited", description: "Celebrating 10 years and $10B+ in audited spend, now powered by next-generation AI." }
+          { year: "2016", title: "Founded", description: "Orca launched with a mission to make freight audit accurate, automated, and accessible." },
+          { year: "2024", title: "Business of the Year", description: "Winner of London Chamber of Commerce Business of the Year – Medium category." },
+          { year: "2024", title: "Billions+ audited", description: "Reached billions in audited freight spend across enterprise shippers worldwide." }
         ],
+        // Values - same layout as homepage valueProps per feedback
         values: [
           {
             title: "Accuracy",
-            description: "We believe freight audit should be 100% accurate. Every invoice matters, every overcharge counts."
+            description: "We believe freight audit should be 100% accurate. Every invoice matters, every overcharge counts.",
+            icon: "✓"
           },
           {
             title: "Transparency",
-            description: "Clear audit trails, explainable AI decisions, and full visibility into your freight spend."
+            description: "Clear audit trails, explainable AI decisions, and full visibility into your freight spend.",
+            icon: "📊"
           },
           {
             title: "Partnership",
-            description: "We work alongside your team, not as a vendor but as a partner in optimizing your freight operations."
+            description: "We work alongside your team, not as a vendor but as a partner in optimizing your freight operations.",
+            icon: "🤝"
           },
           {
             title: "Innovation",
-            description: "From manual audit to AI-powered analytics—we're always evolving to deliver more value."
+            description: "From manual audit to AI-powered analytics—we're always evolving to deliver more value.",
+            icon: "💡"
+          },
+          // Responsibility moved to same size as other values per feedback
+          {
+            title: "Responsibility",
+            description: "Committed to responsible data handling, security, and sustainability. We help optimize freight networks to reduce emissions and improve efficiency.",
+            icon: "🌱"
           }
         ],
-        responsibility: {
-          title: "Responsibility",
-          paragraphs: [
-            "Orca is committed to responsible data handling, security, and sustainability. We help shippers optimize their freight networks, which can reduce emissions and improve efficiency across supply chains.",
-            "Our platform includes tools to help you understand the environmental impact of your freight decisions, including carbon footprint analysis and mode optimization recommendations."
-          ]
-        },
+        // Responsibility section removed - now part of values grid
+        responsibility: null,
         finalCTA: {
           title: "Partner with Orca",
           ctaPrimary: "Partner with Orca",
@@ -451,16 +454,13 @@ export function getDefaultContentForPage(pageId: string): PageContent["sections"
         },
         teamImages: [
           {
+            // Matt & Marco photo needed per feedback
             imageUrl: "/images/placeholders/about-team.jpg",
-            alt: "Orca team",
+            alt: "Matt & Marco - Orca Leadership - IMAGE NEEDED",
             layout: "contained"
           }
         ],
-        timelineImage: {
-          imageUrl: "/images/placeholders/about-timeline.jpg",
-          alt: "Orca timeline",
-          layout: "full-width"
-        }
+        timelineImage: null
       };
 
     case "contact":

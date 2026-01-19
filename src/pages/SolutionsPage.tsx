@@ -6,9 +6,9 @@ import type { RoleSection, ModeSection, CTASection, ImageSection } from "../type
 
 export function SolutionsPage() {
   usePageMetadata({
-    title: "Solutions – Orca Freight Audit & Analytics AI",
+    title: "Freight Audit Solutions | Finance, Logistics & Procurement | Orca",
     description:
-      "Discover how Orca supports finance, logistics, and procurement teams across LTL, FTL, parcel, and ocean/air freight."
+      "Adaptable freight audit solutions for finance, logistics, and procurement teams. LTL, FTL, parcel, and ocean/air shipping audit with AI-powered cost recovery."
   });
 
   const { getSection } = usePageContent({

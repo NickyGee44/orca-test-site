@@ -6,9 +6,9 @@ import type { CaseStudySection, MetricSection, CTASection, ImageSection } from "
 
 export function ResultsPage() {
   usePageMetadata({
-    title: "Results – Freight Audit Outcomes with Orca",
+    title: "Freight Audit Results & Case Studies | Orca",
     description:
-      "Explore example outcomes from Orca's freight audit and analytics programs across different shippers and modes."
+      "See real results from Orca's freight audit programs. Enterprise shippers achieve 3-8% savings, 60% faster invoice processing, and improved carrier performance."
   });
 
   const { getSection } = usePageContent({
